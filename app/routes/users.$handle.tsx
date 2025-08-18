@@ -30,7 +30,50 @@ async function loadCriticalData({
 
 export default function User() {
   const {user} = useLoaderData<typeof loader>();
-  return <></>;
+  const variantUrl = useVariantUrl(user?.product?.reference?.handle as string);
+
+  return (
+    <section className="user-container">
+      <div className="user-info">
+        <h3 className="user-name">
+          Welcome <strong>{user?.firstName?.value}</strong>,
+        </h3>
+        <Image
+          className="user-avatar"
+          data={{...user?.image?.reference?.image}}
+          width={64}
+        />
+      </div>
+
+      <div className="user-recommendation">
+        <div className="user-product-info-container">
+          <span className="user-recommendation-title">Recommended for you</span>
+          <div className="user-product-info">
+            <h4 className="user-product-title">
+              {user?.product?.reference?.title}
+            </h4>
+            <p className="user-product-description">
+              {user?.product?.reference?.description}
+            </p>
+            <Link
+              className="user-product-cta"
+              prefetch="intent"
+              to={variantUrl}
+            >
+              View product
+            </Link>
+          </div>
+        </div>
+
+        <Image
+          aspectRatio="1/1"
+          className="user-product-image"
+          data={{...user?.product?.reference?.featuredImage}}
+          width={400}
+        />
+      </div>
+    </section>
+  );
 }
 
 const USER_METAOBJECT = `#graphql
