@@ -25,6 +25,10 @@ async function loadCriticalData({
     variables: {handle: {handle: handle!, type: 'users'}},
   });
 
+  if (!user) {
+    throw new Response(null, {status: 404});
+  }
+
   return {user};
 }
 
