@@ -3,6 +3,8 @@ import {Link, useLoaderData} from 'react-router';
 import {LoaderFunctionArgs, type MetaFunction} from 'react-router';
 import {useVariantUrl} from '~/lib/variants';
 
+import fallbackImage from '../assets/profile-fallback.svg';
+
 export const meta: MetaFunction<typeof loader> = () => {
   return [{title: `Hydrogen | Users`}];
 };
@@ -45,37 +47,48 @@ export default function User() {
         <Image
           className="user-avatar"
           data={{...user?.image?.reference?.image}}
+          src={user?.image?.reference?.image?.url ?? fallbackImage}
           width={64}
         />
       </div>
 
-      <div className="user-recommendation">
-        <div className="user-product-info-container">
-          <span className="user-recommendation-title">Recommended for you</span>
-          <div className="user-product-info">
-            <h4 className="user-product-title">
-              {user?.product?.reference?.title}
-            </h4>
-            <p className="user-product-description">
-              {user?.product?.reference?.description}
-            </p>
-            <Link
-              className="user-product-cta"
-              prefetch="intent"
-              to={variantUrl}
-            >
-              View product
-            </Link>
+      {user?.product ? (
+        <div className="user-recommendation">
+          <div className="user-product-info-container">
+            <span className="user-recommendation-title">
+              Recommended for you
+            </span>
+            <div className="user-product-info">
+              <h4 className="user-product-title">
+                {user?.product?.reference?.title}
+              </h4>
+              <p className="user-product-description">
+                {user?.product?.reference?.description}
+              </p>
+              <Link
+                className="user-product-cta"
+                prefetch="intent"
+                to={variantUrl}
+              >
+                View product
+              </Link>
+            </div>
           </div>
-        </div>
 
-        <Image
-          aspectRatio="1/1"
-          className="user-product-image"
-          data={{...user?.product?.reference?.featuredImage}}
-          width={400}
-        />
-      </div>
+          <Image
+            aspectRatio="1/1"
+            className="user-product-image"
+            data={{...user?.product?.reference?.featuredImage}}
+            width={400}
+          />
+        </div>
+      ) : (
+        <div className="user-recommendation" style={{justifyContent: 'center'}}>
+          <span className="user-recommendation-title">
+            Product recommendation unavailable
+          </span>
+        </div>
+      )}
     </section>
   );
 }
