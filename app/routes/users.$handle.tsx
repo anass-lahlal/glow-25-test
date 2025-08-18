@@ -75,12 +75,14 @@ export default function User() {
             </div>
           </div>
 
-          <Image
-            aspectRatio="1/1"
-            className="user-product-image"
-            data={{...user?.product?.reference?.featuredImage}}
-            width={400}
-          />
+          <div className="user-product-image-wrapper">
+            <Image
+              aspectRatio="1/1"
+              className="user-product-image"
+              data={{...user?.product?.reference?.featuredImage}}
+              width={400}
+            />
+          </div>
         </div>
       ) : (
         <div className="user-recommendation" style={{justifyContent: 'center'}}>
